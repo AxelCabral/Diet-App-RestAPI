@@ -1,0 +1,12 @@
+# Dependencies
+node_modules
+
+#Passo a passo para desenvolvimento do projeto
+Passo-a-passo-projeto.txt
+
+# Database
+db/*.db
+
+# Environment
+.env
+.env.test
