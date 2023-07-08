@@ -101,11 +101,11 @@ export async function mealRoutes(app: FastifyInstance) {
         const createMealBodySchema = z.object({
             name: z.string(),
             description: z.string(),
-            in_or_out_diet: z.boolean(),
+            inOrOutDiet: z.boolean(),
         })
 
         const { id } = getMealParamSchema.parse(request.params)
-        const { name, description, in_or_out_diet } = createMealBodySchema.parse(request.body)
+        const { name, description, inOrOutDiet} = createMealBodySchema.parse(request.body)
 
         const { sessionUserId } = request.cookies
 
@@ -126,7 +126,7 @@ export async function mealRoutes(app: FastifyInstance) {
             .update({
                 name,
                 description,
-                in_or_out_diet
+                in_or_out_diet: inOrOutDiet
             })
 
             return reply.status(204).send()
@@ -148,6 +148,8 @@ export async function mealRoutes(app: FastifyInstance) {
 
         const { sessionUserId } = request.cookies
 
+        console.log('Executando teste')
+
         const meal = await knex('meals')
         .where({
             user_id: sessionUserId,
@@ -155,9 +157,13 @@ export async function mealRoutes(app: FastifyInstance) {
         })
         .first()
 
-        return {
-            meal
+        if(meal){
+            return {
+                meal
+            }
         }
+
+        return reply.status(404).send()
     })
    
     app.post('/',
@@ -172,17 +178,17 @@ export async function mealRoutes(app: FastifyInstance) {
        const createMealBodySchema = z.object({
             name: z.string(),
             description: z.string(),
-            in_or_out_diet: z.boolean(),
+            inOrOutDiet: z.boolean(),
         })
       
-        const { name, description, in_or_out_diet } = createMealBodySchema.parse(request.body)
+        const { name, description, inOrOutDiet } = createMealBodySchema.parse(request.body)
 
         await knex('meals').insert({
             id: randomUUID(),
             name,
             user_id: sessionUserId,
             description,
-            in_or_out_diet
+            in_or_out_diet: inOrOutDiet
         })
 
          return reply.status(201).send()

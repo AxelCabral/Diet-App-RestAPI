@@ -40,17 +40,17 @@ export async function userRoutes(app: FastifyInstance) {
        
        const createUserBodySchema = z.object({
             name: z.string(),
-            profile_picture_url: z.string()
+            profilePictureUrl: z.string()
         })
       
-        const { name, profile_picture_url } = createUserBodySchema.parse(request.body)
+        const { name, profilePictureUrl } = createUserBodySchema.parse(request.body)
 
         const userId = randomUUID()
 
         await knex('users').insert({
             id: userId,
             name,
-            profile_picture_url
+            profile_picture_url: profilePictureUrl
         })
 
         const sessionUserId = request.cookies.sessionUserId
