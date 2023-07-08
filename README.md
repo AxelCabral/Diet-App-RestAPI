@@ -5,7 +5,6 @@
 - TypeScript
 - Fastify
 - SQLite
-- Zod
 
 ## RF
 
